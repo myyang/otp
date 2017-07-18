@@ -6,7 +6,8 @@ import "time"
 func Test6DigitTOTP(t *testing.T) {
 	h := NewTOTP()
 	tf := time.Now().Unix()
-	opt := New6DisigtTOTPOpts("IssuerFor6", "AccountFor6", tf, 300)
+	baseTf := tf - 2000
+	opt := New6DisigtTOTPOpts("IssuerFor6", "AccountFor6", baseTf, 300)
 	fkey := "Fakekey1key2key3"
 
 	r, err := h.Generate(tf, fkey, opt)
@@ -22,13 +23,14 @@ func Test6DigitTOTP(t *testing.T) {
 		ErrStr string
 	}{
 		{tf, true, fkey, opt, "Positive verify fail: same time"},
-		{tf + 298, true, fkey, opt, "Positive verify fail: tf + 298"},
+		{tf + 99, true, fkey, opt, "Positive verify fail: tf + 99"},
 		{tf + 301, false, fkey, opt, "Wrong timeframe verify fail"},
 		{tf, false, "wrongkey", opt, "Wrong key verify fail"},
-		{tf, false, fkey, New6DisigtTOTPOpts("user6", "AccountFor6", tf, 300), "Wrong Issuer verify fail"},
-		{tf, false, fkey, New6DisigtTOTPOpts("IssuerFor6", "user6", tf, 300), "Wrong account verify fail"},
+		{tf, false, fkey, New6DisigtTOTPOpts("user6", "AccountFor6", baseTf, 300), "Wrong Issuer verify fail"},
+		{tf, false, fkey, New6DisigtTOTPOpts("IssuerFor6", "user6", baseTf, 300), "Wrong account verify fail"},
 		{tf, false, fkey, New6DisigtTOTPOpts("IssuerFor6", "AccountFor6", 0, 300), "Wrong UinxTime verify fail"},
-		{tf, false, fkey, New6DisigtTOTPOpts("IssuerFor6", "AccountFor6", tf, 800), "Wrong Period verify fail"},
+		{tf, false, fkey, New6DisigtTOTPOpts("IssuerFor6", "AccountFor6", baseTf, 800), "Wrong Period (Bigger) verify fail"},
+		{tf, false, fkey, New6DisigtTOTPOpts("IssuerFor6", "AccountFor6", baseTf, 100), "Wrong Period (Smaller) verify fail"},
 		{tf, false, "wrong key", New6DisigtTOTPOpts("issuer6", "user6", 265, 700), "All wrong verify fail"},
 	}
 
@@ -43,7 +45,8 @@ func Test6DigitTOTP(t *testing.T) {
 func Test8DigitTOTP(t *testing.T) {
 	h := NewTOTP()
 	tf := time.Now().Unix()
-	opt := New8DisigtTOTPOpts("IssuerFor8", "AccountFor8", tf, 300)
+	baseTf := tf - 2000
+	opt := New8DisigtTOTPOpts("IssuerFor8", "AccountFor8", baseTf, 300)
 	fkey := "Fakekey1key2key3"
 
 	r, err := h.Generate(tf, fkey, opt)
@@ -59,13 +62,14 @@ func Test8DigitTOTP(t *testing.T) {
 		ErrStr string
 	}{
 		{tf, true, fkey, opt, "Positive verify fail: same time"},
-		{tf + 298, true, fkey, opt, "Positive verify fail: tf + 298"},
+		{tf + 98, true, fkey, opt, "Positive verify fail: tf + 98"},
 		{tf + 301, false, fkey, opt, "Wrong timeframe verify fail"},
 		{tf, false, "wrongkey", opt, "Wrong key verify fail"},
-		{tf, false, fkey, New8DisigtTOTPOpts("user8", "AccountFor8", tf, 300), "Wrong Issuer verify fail"},
-		{tf, false, fkey, New8DisigtTOTPOpts("IssuerFor8", "user8", tf, 300), "Wrong account verify fail"},
+		{tf, false, fkey, New8DisigtTOTPOpts("user8", "AccountFor8", baseTf, 300), "Wrong Issuer verify fail"},
+		{tf, false, fkey, New8DisigtTOTPOpts("IssuerFor8", "user8", baseTf, 300), "Wrong account verify fail"},
 		{tf, false, fkey, New8DisigtTOTPOpts("IssuerFor8", "AccountFor8", 0, 300), "Wrong UinxTime verify fail"},
-		{tf, false, fkey, New8DisigtTOTPOpts("IssuerFor8", "AccountFor8", tf, 800), "Wrong Period verify fail"},
+		{tf, false, fkey, New8DisigtTOTPOpts("IssuerFor8", "AccountFor8", baseTf, 800), "Wrong Period (Bigger) verify fail"},
+		{tf, false, fkey, New8DisigtTOTPOpts("IssuerFor8", "AccountFor8", baseTf, 100), "Wrong Period (Smaller) verify fail"},
 		{tf, false, "wrong key", New8DisigtTOTPOpts("issuer8", "user8", 265, 700), "All wrong verify fail"},
 	}
 
