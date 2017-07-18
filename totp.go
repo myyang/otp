@@ -5,14 +5,15 @@ import (
 	"crypto/subtle"
 )
 
-// New6DisigtTOTPOpts return 6 digits TOTP options
-// unixtime is unix timestamp, both unixtime and period are in second presicion
+// New6DisigtTOTPOpts return 6 digits TOTP options with SHA1 algo
+// unixtime is unix timestamp, both unixtime and period are in second precision
 func New6DisigtTOTPOpts(issuer, account string, unixtime, period int64) CryptorOpts {
 	opt, _ := NewCustomTOTPOpts(issuer, account, sha1.New, 6, DefaultMsg, unixtime, period)
 	return opt
 }
 
-// New8DisigtTOTPOpts return 8 digits TOTP options
+// New8DisigtTOTPOpts return 8 digits TOTP options with SHA1 algo
+// unixtime is unix timestamp, both unixtime and period are in second precision
 func New8DisigtTOTPOpts(issuer, account string, unixtime, period int64) CryptorOpts {
 	opt, _ := NewCustomTOTPOpts(issuer, account, sha1.New, 8, DefaultMsg, unixtime, period)
 	return opt

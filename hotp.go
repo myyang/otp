@@ -8,13 +8,13 @@ import (
 	"strconv"
 )
 
-// New6DisigtHOTPOpts return 6 digits options
+// New6DisigtHOTPOpts return 6 digits options with SHA1 hash
 func New6DisigtHOTPOpts(issuer, account string) CryptorOpts {
 	opt, _ := NewCustomHOTPOpts(issuer, account, sha1.New, 6, DefaultMsg)
 	return opt
 }
 
-// New8DisigtHOTPOpts return 6 digits options
+// New8DisigtHOTPOpts return 8 digits options with SHA1 hash
 func New8DisigtHOTPOpts(issuer, account string) CryptorOpts {
 	opt, _ := NewCustomHOTPOpts(issuer, account, sha1.New, 8, DefaultMsg)
 	return opt

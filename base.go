@@ -11,13 +11,13 @@ import (
 // Use a cryptor which implement functions and
 // cryptor option which stores customizable params
 
-// Cryptor define functions used by HOTP/TOTP
+// Cryptor defines functions used by HOTP/TOTP
 type Cryptor interface {
 	Generate(msg []byte, opts CryptorOpts) []byte
 	Verify(val, exp []byte, opts CryptorOpts) bool
 }
 
-// MessageFn define provides customizable function to pass message to hash fun
+// MessageFn defines customizable function to pass message to hash func
 type MessageFn func(int64, CryptorOpts) ([]byte, error)
 
 // CryptorOpts defines customizable variables
@@ -32,7 +32,7 @@ type CryptorOpts struct {
 	Period      int64
 }
 
-// DefaultMsg produce message byte with format "AccountName@Issuer-count"
+// DefaultMsg produces message byte data with format "AccountName@Issuer-count"
 // and encode with base64
 func DefaultMsg(count int64, c CryptorOpts) ([]byte, error) {
 	// simple produce
